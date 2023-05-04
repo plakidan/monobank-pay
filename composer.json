@@ -1,0 +1,23 @@
+{
+    "name": "plakidan/monobank-pay",
+    "description": "This is simple library for Monobank Acquiring called \"MonoPay\" based on REST API (v2304) docs located at https://api.monobank.ua/docs/acquiring.html",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Stierlitz",
+            "email": "y.plakida@aiw.systems"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.0",
+        "starkbank/ecdsa": "0.0.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MonoPay\\": "src/"
+        }
+    }
+}
