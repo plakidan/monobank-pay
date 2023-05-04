@@ -1,4 +1,4 @@
-# Проста бібліотека для [MonobankPay](https://api.monobank.ua/) (MonoPay)
+# 🇺🇦🇺🇦🇺🇦 Проста бібліотека для [MonobankPay](https://api.monobank.ua/) (MonoPay)
 Документація по REST API [тут](https://api.monobank.ua/docs/acquiring.html)
 
 Для ведення запитів вам знадобиться токен з особистого кабінету [https://fop.monobank.ua/](https://fop.monobank.ua/) або тестовий токен з [https://api.monobank.ua/](https://api.monobank.ua/)
