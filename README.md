@@ -5,7 +5,7 @@
 
 Встановити бібліотеку:
 ```bash
-composer require stierlitz/monobank-pay
+composer require plakidan/monobank-pay
 ```
 
 ### Мінімальні вимоги:
