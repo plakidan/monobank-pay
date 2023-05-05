@@ -7,6 +7,10 @@
 ```bash
 composer require plakidan/monobank-pay
 ```
+Також зробив варіант для php5.6:
+```bash
+composer require plakidan/monobank-pay:dev-php5.6-adaptation
+```
 
 ### Мінімальні вимоги:
 * php >=7.4
