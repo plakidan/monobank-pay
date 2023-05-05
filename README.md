@@ -15,7 +15,8 @@ composer require plakidan/monobank-pay
 
 ### Приклади використання:
 ```php
-require_once('vendor/autoload.php');
+
+require_once 'vendor/autoload.php';
 
 //створили клієнта - через нього запити будуть слатись
 $monoClient = new \MonoPay\Client('YOUR_TOKEN_HERE');
@@ -28,25 +29,29 @@ echo $monoClient->getMerchantName();
 $monoPayment = new \MonoPay\Payment($monoClient);
 
 //створення платежу
-$invoice = $monoPayment->create(1000,[
-           'merchantPaymInfo' => [ //деталі оплати
-               'reference' => 'my_shop_order_28142', //Номер чека, замовлення, тощо; визначається мерчантом (вами)
-               'destination' => 'Оплата за замовлення #28142', //Призначення платежу
-               'basketOrder' => [ //Склад замовлення, використовується для відображення кошика замовлення
-                   [
-                       'name' => 'Товар1', //Назва товару
-                       'qty' => 2, //Кількість
-                       'sum' => 500, //Сума у мінімальних одиницях валюти за одиницю товару
-                       'icon' => 'https://example.com/images/product1.jpg', //Посилання на зображення товару
-                       'unit' => 'уп.', //Назва одиниці вимiру товару
-                   ]
-               ]
-           ],
-           'redirectUrl' => 'https://example.com/order-result', //Адреса для повернення (GET) - на цю адресу буде переадресовано користувача після завершення оплати (у разі успіху або помилки)
-           'webHookUrl' => 'https://example.com/mono-webhook', //Адреса для CallBack (POST) – на цю адресу буде надіслано дані про стан платежу при кожній зміні статусу. Зміст тіла запиту ідентичний відповіді запиту “перевірки статусу рахунку”
-           'validity' => 3600*24*7, //Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
-           'paymentType' => 'debit', //debit | hold. Тип операції. Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
-       ]);
+$invoice = $monoPayment->create(
+    1000,
+    [
+        //деталі оплати
+        'merchantPaymInfo' => [
+            'reference' => 'my_shop_order_28142', //номер чека, замовлення, тощо; визначається мерчантом (вами)
+            'destination' => 'Оплата за замовлення #28142', //призначення платежу
+            'basketOrder' => [ //наповнення замовлення, використовується для відображення кошика замовлення
+                [
+                    'name' => 'Товар1', //назва товару
+                    'qty' => 2, //кількість
+                    'sum' => 500, //сума у мінімальних одиницях валюти за одиницю товару
+                    'icon' => 'https://example.com/images/product1.jpg', //посилання на зображення товару
+                    'unit' => 'уп.', //назва одиниці вимiру товару
+                ],
+            ],
+        ],
+        'redirectUrl' => 'https://example.com/order-result', //адреса для повернення (GET) - на цю адресу буде переадресовано користувача після завершення оплати (у разі успіху або помилки)
+        'webHookUrl' => 'https://example.com/mono-webhook', //адреса для CallBack (POST) – на цю адресу буде надіслано дані про стан платежу при кожній зміні статусу. Зміст тіла запиту ідентичний відповіді запиту “перевірки статусу рахунку”
+        'validity' => 3600 * 24 * 7, //строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
+        'paymentType' => 'debit', //debit | hold. Тип операції. Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
+    ]
+);
 print_r($invoice);
 
 //інформація про платіж
@@ -67,17 +72,17 @@ print_r($invoiceDetails);
 
 //списати заблоковану сумму
 //зверніть увагу: списати можна тільки таку самму або меншу сумму яку ви заблокували
-$result = $monoPayment->captureHold('2305046jUBEj8WfyaBdB',500);
+$result = $monoPayment->captureHold('2305046jUBEj8WfyaBdB', 500);
 print_r($result);
 
 //список успішних оплат за останні сутки
-$list = $monoPayment->items(time()-60*60*24);
+$list = $monoPayment->items(time() - 60 * 60 * 24);
 print_r($list);
 ```
 
 ### Отримання вебхуку:
 ```php
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 
 //створили клієнта - через нього запити будуть слатись
 $monoClient = new \MonoPay\Client('YOUR_TOKEN_HERE');
@@ -86,14 +91,14 @@ $monoClient = new \MonoPay\Client('YOUR_TOKEN_HERE');
 $publicKey = $monoClient->getPublicKey();
 
 //класс для роботи з вебхуком
-$monoWebhook = new \MonoPay\Webhook($monoClient,$publicKey,$_SERVER['HTTP_X_SIGN']);
+$monoWebhook = new \MonoPay\Webhook($monoClient, $publicKey, $_SERVER['HTTP_X_SIGN']);
 //отримуємо вхідні дані
 $body = file_get_contents('php://input');
 //валідуємо дані
-if($monoWebhook->verify($body)){
-    echo "Ці дані прислав монобанк, можна обробляти";
-}else{
-    echo "Дані прислав шахрай, ігноруємо";
+if ($monoWebhook->verify($body)) {
+    echo 'Ці дані прислав монобанк, можна обробляти';
+} else {
+    echo 'Дані прислав шахрай, ігноруємо';
 }
 ```
 
