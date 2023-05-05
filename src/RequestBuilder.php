@@ -6,7 +6,7 @@ namespace MonoPay;
 
 class RequestBuilder
 {
-    protected function getDataFromGuzzleResponse(\Psr\Http\Message\ResponseInterface $response): array
+    protected function getDataFromGuzzleResponse(\Psr\Http\Message\ResponseInterface $response)
     {
         $json = $response->getBody()->getContents();
         if(!$json){

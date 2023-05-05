@@ -5,10 +5,10 @@ namespace MonoPay;
 
 class Client extends RequestBuilder
 {
-    private ?string $merchantId;
-    private ?string $merchantName;
-    public string $apiEndpoint = 'https://api.monobank.ua/';
-    private \GuzzleHttp\Client $httpClient;
+    private $merchantId;
+    private $merchantName;
+    public $apiEndpoint = 'https://api.monobank.ua/';
+    private $httpClient;
 
     /**
      * Створює клієнт з ключем для запитів до серверу Mono і отримує дані про мерчант
@@ -16,7 +16,7 @@ class Client extends RequestBuilder
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1details/get Так отримуються деталі мерчанту
      */
-    public function __construct(string $token)
+    public function __construct($token='')
     {
         $this->httpClient = new \GuzzleHttp\Client([
             'base_uri' => $this->apiEndpoint,
@@ -37,21 +37,21 @@ class Client extends RequestBuilder
                 throw new \Exception('Cannot decode json response from Mono', 500);
             }
         } else {
-            throw new \Exception($data['errorDescription'] ?? 'Unknown error response: ' . $json, $response->getStatusCode());
+            throw new \Exception(isset($data['errorDescription']) ? $data['errorDescription'] : 'Unknown error response: ' . $json, $response->getStatusCode());
         }
     }
 
-    public function getMerchantId(): string
+    public function getMerchantId()
     {
         return $this->merchantId;
     }
 
-    public function getMerchantName(): string
+    public function getMerchantName()
     {
         return $this->merchantName;
     }
 
-    public function getClient():  \GuzzleHttp\Client
+    public function getClient()
     {
         return $this->httpClient;
     }
@@ -63,7 +63,7 @@ class Client extends RequestBuilder
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function getPublicKey(): string
+    public function getPublicKey()
     {
         $response = $this->getClient()->request('GET','/api/merchant/pubkey');
         $data = $this->getDataFromGuzzleResponse($response);
@@ -80,7 +80,7 @@ class Client extends RequestBuilder
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function getMerchant(): array
+    public function getMerchant()
     {
         $response = $this->getClient()->request('GET','/api/merchant/details');
         return $this->getDataFromGuzzleResponse($response);

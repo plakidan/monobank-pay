@@ -6,7 +6,7 @@ namespace MonoPay;
 
 class Payment extends RequestBuilder
 {
-    private \MonoPay\Client $client;
+    private $client;
 
     public function __construct(\MonoPay\Client $client)
     {
@@ -20,9 +20,10 @@ class Payment extends RequestBuilder
      * @param array $options Додаткові параметри (Див. посилання)
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1invoice~1create/post
      */
-    public function create(int $amount, array $options=[]): array
+    public function create( $amount,  $options=[])
     {
         if($amount < 1){
             throw new \Exception('Amount must be a natural number',500);
@@ -43,7 +44,7 @@ class Payment extends RequestBuilder
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function info(string $invoiceId): array
+    public function info($invoiceId)
     {
         $response = $this->client->getClient()->request('GET','/api/merchant/invoice/status',[
             \GuzzleHttp\RequestOptions::QUERY => [
@@ -63,7 +64,7 @@ class Payment extends RequestBuilder
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function refund(string $invoiceId, array $options=[]): array
+    public function refund( $invoiceId, array $options=[])
     {
         $options['invoiceId'] = $invoiceId;
 
@@ -78,10 +79,10 @@ class Payment extends RequestBuilder
      * Інвалідація рахунку
      * Інвалідація рахунку, якщо за ним ще не було здіснено оплати
      * @param string $invoiceId ID рахунку
+     * @throws \GuzzleHttp\Exception\GuzzleException*@throws \Exception
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1invoice~1remove/post
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public  function cancel(string $invoiceId): array
+    public  function cancel($invoiceId)
     {
         $response = $this->client->getClient()->request('POST','/api/merchant/invoice/remove',[
             \GuzzleHttp\RequestOptions::JSON => [
@@ -99,7 +100,7 @@ class Payment extends RequestBuilder
      * @throws \Exception
      *@link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1invoice~1payment-info?invoiceId=%7BinvoiceId%7D/get
      */
-    public function successDetails(string $invoiceId): array
+    public function successDetails($invoiceId)
     {
         $response = $this->client->getClient()->request('GET','/api/merchant/invoice/payment-info',[
             \GuzzleHttp\RequestOptions::QUERY => [
@@ -120,7 +121,7 @@ class Payment extends RequestBuilder
      * @throws \Exception
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1invoice~1finalize/post
      */
-    public function captureHold(string $invoiceId, int $amount = null): array
+    public function captureHold( $invoiceId,  $amount = null)
     {
         $body = [
             'invoiceId' => $invoiceId
@@ -145,7 +146,7 @@ class Payment extends RequestBuilder
      * @throws \Exception
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1statement/get
      */
-    public function items(int $fromTimestamp, int $toTimestamp=null): array
+    public function items( $fromTimestamp,  $toTimestamp=null)
     {
         $query = [
             'from' => $fromTimestamp
@@ -158,7 +159,7 @@ class Payment extends RequestBuilder
         ]);
 
         $data = $this->getDataFromGuzzleResponse($response);
-        return $data['list']??[];
+        return isset($data['list']) ? $data['list'] : [];
     }
 
 }

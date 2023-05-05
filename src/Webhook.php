@@ -6,8 +6,8 @@ namespace MonoPay;
 
 class Webhook
 {
-    private string $publicKeyBase64;
-    private string $xSignBase64;
+    private $publicKeyBase64;
+    private $xSignBase64;
 
     /**
      * Класс для верифікації даних з вебхука
@@ -17,7 +17,7 @@ class Webhook
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function __construct(\MonoPay\Client $client, string $publicKeyBase64=null, string $xSignBase64=null)
+    public function __construct(\MonoPay\Client $client,  $publicKeyBase64=null,  $xSignBase64=null)
     {
         if(!$publicKeyBase64){
             $publicKeyBase64 = $client->getPublicKey();
@@ -40,7 +40,7 @@ class Webhook
      * @param string|null $requestBody Тіло запиту. Зазвичай це json body вхідного запиту який можна отримати через функцію file_get_contents('php://input')
      * @return bool Чи коректні вхідні дані
      */
-    public function verify(string $requestBody=null): bool
+    public function verify( $requestBody=null)
     {
         if(empty($requestBody)){
             $requestBody = file_get_contents('php://input');
