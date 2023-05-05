@@ -14,7 +14,7 @@ class RequestBuilder
         }
         $data = json_decode($json,true);
         if(!$data){
-            throw new \Exception('Cannot decode json response from Mono', 500);
+            throw new \Exception('Cannot decode json response from Mono: '.$json, 500);
         }
         if ($response->getStatusCode() == '200') {
             return $data;

@@ -24,12 +24,12 @@ class Client extends RequestBuilder
             \GuzzleHttp\RequestOptions::HEADERS => [
                 'X-Token' => $token,
             ],
-            \GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+            \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
         ]);
         $response = $this->httpClient->request('GET', '/api/merchant/details');
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);
-        if ($response->getStatusCode() == '200') {
+        if ($response->getStatusCode() == 200) {
             if ($data && isset($data['merchantId']) && isset($data['merchantName'])) {
                 $this->merchantId = $data['merchantId'];
                 $this->merchantName = $data['merchantName'];
