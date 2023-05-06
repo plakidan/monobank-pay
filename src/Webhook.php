@@ -13,7 +13,7 @@ class Webhook
      * Класс для верифікації даних з вебхука
      * @param Client $client
      * @param string|null $publicKeyBase64 Публічний ключ, кешований раніше
-     * @param string|null $xSignBase64 Підпис, що приходить в заголовку X-Sign разом із вебхуком
+     * @param string|null $xSignBase64 Підпис, що приходить в заголовку X-Sign разом із вебхуком. Параметр не обов'язковий. Якщо його не передати, бібліотека сама спробує отримати його з хедеру
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
