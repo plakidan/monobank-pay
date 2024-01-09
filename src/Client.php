@@ -13,17 +13,23 @@ class Client extends RequestBuilder
     /**
      * Створює клієнт з ключем для запитів до серверу Mono і отримує дані про мерчант
      * @param string $token Токен з особистого кабінету https://fop.monobank.ua/ або тестовий токен з https://api.monobank.ua/
+     * @param array $custom_headers Додаткові кастомні хедери які хочете передати - масив масивів ([ключ => значення])
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1details/get Так отримуються деталі мерчанту
      */
-    public function __construct(string $token)
+    public function __construct(string $token, array $custom_headers = [])
     {
+        $headers = [
+            'X-Token' => $token,
+        ];
+        if($custom_headers){
+            $headers = array_merge($custom_headers, $headers);
+        }
+
         $this->httpClient = new \GuzzleHttp\Client([
             'base_uri' => $this->apiEndpoint,
             \GuzzleHttp\RequestOptions::TIMEOUT => 5,
-            \GuzzleHttp\RequestOptions::HEADERS => [
-                'X-Token' => $token,
-            ],
+            \GuzzleHttp\RequestOptions::HEADERS => $headers,
             \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
         ]);
         $response = $this->httpClient->request('GET', '/api/merchant/details');
