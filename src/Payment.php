@@ -219,7 +219,7 @@ class Payment extends RequestBuilder
         $query = [
             'cardToken' => $cardToken
         ];
-        $response = $this->client->getClient()->request('DELETE','/api/merchant/wallet/payment',[
+        $response = $this->client->getClient()->request('DELETE','/api/merchant/wallet/card',[
             \GuzzleHttp\RequestOptions::QUERY => $query
         ]);
 
