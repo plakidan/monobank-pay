@@ -200,7 +200,7 @@ class Payment extends RequestBuilder
         $query = [
             'walletId' => $walletId
         ];
-        $response = $this->client->getClient()->request('GET','/api/merchant/statement',[
+        $response = $this->client->getClient()->request('GET','/api/merchant/wallet',[
             \GuzzleHttp\RequestOptions::QUERY => $query
         ]);
 
