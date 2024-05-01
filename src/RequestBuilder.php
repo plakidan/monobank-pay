@@ -9,6 +9,9 @@ class RequestBuilder
     protected function getDataFromGuzzleResponse(\Psr\Http\Message\ResponseInterface $response): array
     {
         $json = $response->getBody()->getContents();
+        if(!$json && $response->getStatusCode() == 200){
+            return [];
+        }
         if(!$json){
             throw new \Exception('Empty request from Mono API',500);
         }
