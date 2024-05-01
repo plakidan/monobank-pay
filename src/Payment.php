@@ -8,6 +8,9 @@ class Payment extends RequestBuilder
 {
     private \MonoPay\Client $client;
 
+    const TOKEN_PAYMENT_INIT_KIND_MERCHANT = 'merchant';
+    const TOKEN_PAYMENT_INIT_KIND_CLIENT = 'client';
+
     public function __construct(\MonoPay\Client $client)
     {
         $this->client = $client;
@@ -159,6 +162,68 @@ class Payment extends RequestBuilder
 
         $data = $this->getDataFromGuzzleResponse($response);
         return $data['list']??[];
+    }
+
+    /**
+     * Оплата по токену
+     * Створення платежу за токеном картки
+     * @param string $cartToken Токен карти
+     * @param int $amount Сума оплати у мінімальних одиницях (копійки для гривні)
+     * @param array $options Додаткові параметри (Див. посилання)
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1wallet~1payment/post
+     */
+    public function createWithCardToken(string $cartToken, int $amount, array $options=[]): array
+    {
+        if($amount < 1){
+            throw new \Exception('Amount must be a natural number',500);
+        }
+        $options['amount']=$amount;
+        $options['cardToken']=$cartToken;
+        $response = $this->client->getClient()->request('POST','/api/merchant/wallet/payment',[
+            \GuzzleHttp\RequestOptions::JSON => $options
+        ]);
+
+        return $this->getDataFromGuzzleResponse($response);
+    }
+
+    /**
+     * Список карт у гаманці
+     * @param string $walletId Ідетифікатор гаманція покупця
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1wallet/get
+     */
+    public function listCardTokens(string $walletId): array
+    {
+        $query = [
+            'walletId' => $walletId
+        ];
+        $response = $this->client->getClient()->request('GET','/api/merchant/statement',[
+            \GuzzleHttp\RequestOptions::QUERY => $query
+        ]);
+
+        $data = $this->getDataFromGuzzleResponse($response);
+        return $data['wallet']??[];
+    }
+
+    /**
+     * Видалення токенізованої картки
+     * @param string $cardToken Токен картки
+     * @return void
+     * @link https://api.monobank.ua/docs/acquiring.html#/paths/~1api~1merchant~1wallet~1card/delete
+     */
+    public function deleteCardToken(string $cardToken): void
+    {
+        $query = [
+            'cardToken' => $cardToken
+        ];
+        $response = $this->client->getClient()->request('DELETE','/api/merchant/wallet/payment',[
+            \GuzzleHttp\RequestOptions::QUERY => $query
+        ]);
+
+        $this->getDataFromGuzzleResponse($response);
     }
 
 }
