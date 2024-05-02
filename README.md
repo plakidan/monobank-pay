@@ -82,6 +82,20 @@ print_r($result);
 //список успішних оплат за останні сутки
 $list = $monoPayment->items(time() - 60 * 60 * 24);
 print_r($list);
+
+//оплата по токену (токен можна отримати якщо створити платіж і додати в цей платіж помітку saveCardData)
+$result = $monoPayment->createWithCardToken('67XZtXdR4NpKU3',50.99,[
+        'ccy' => 980, //валюта гривня
+        'initiationKind' => \MonoPay\Payment::TOKEN_PAYMENT_INIT_KIND_MERCHANT //або client - ініціатор платежу
+    ]);
+print_r($result);
+
+//список прив'язаник карток
+$result = $monoPayment->listCardTokens('user_245'); //user_245 - walletId який ви вказували при створенні токену на прешому платежі
+print_r($result);
+
+//видалення картки 
+$result = deleteCardToken('67XZtXdR4NpKU3');
 ```
 
 ### Отримання вебхуку:
@@ -109,7 +123,6 @@ if ($monoWebhook->verify($body)) {
 ```
 
 #### TODO List:
-* Доробити методи стосовно токенізації карт
 * Переробити вхідні параметри і вихідні дані на класи з описаними методами
 * Попросити в Гороховського баночку пива
 
