@@ -95,7 +95,7 @@ $result = $monoPayment->listCardTokens('user_245'); //user_245 - walletId яки
 print_r($result);
 
 //видалення картки 
-$result = deleteCardToken('67XZtXdR4NpKU3');
+deleteCardToken('67XZtXdR4NpKU3');
 ```
 
 ### Отримання вебхуку:
