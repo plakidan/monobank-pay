@@ -5,11 +5,11 @@
 
 Встановити бібліотеку:
 ```bash
-composer require plakidan/monobank-pay
+composer require oneb-pub/monobank-pay
 ```
 Також зробив варіант для php5.6:
 ```bash
-composer require plakidan/monobank-pay:dev-php5.6-adaptation
+composer require oneb-pub/monobank-pay:dev-php5.6-adaptation
 ```
 
 ### Мінімальні вимоги:

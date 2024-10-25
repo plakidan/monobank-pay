@@ -1,5 +1,5 @@
 {
-    "name": "plakidan/monobank-pay",
+    "name": "oneb-pub/monobank-pay",
     "description": "This is simple library for Monobank Acquiring called \"MonoPay\" based on REST API (v2304) docs located at https://api.monobank.ua/docs/acquiring.html",
     "type": "library",
     "license": "Apache-2.0",
