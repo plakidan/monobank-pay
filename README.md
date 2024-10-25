@@ -5,11 +5,11 @@
 
 Встановити бібліотеку:
 ```bash
-composer require plakidan/monobank-pay
+composer require oneb-pub/monobank-pay
 ```
 Також зробив варіант для php5.6:
 ```bash
-composer require plakidan/monobank-pay:dev-php5.6-adaptation
+composer require oneb-pub/monobank-pay:dev-php5.6-adaptation
 ```
 
 ### Мінімальні вимоги:
@@ -124,6 +124,5 @@ if ($monoWebhook->verify($body)) {
 
 #### TODO List:
 * Переробити вхідні параметри і вихідні дані на класи з описаними методами
-* Попросити в Гороховського баночку пива
 
-### P.S. Буду радий вашим pull-реквестам
+### P.S. Завжди раді вашим pull-реквестам
