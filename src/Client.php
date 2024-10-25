@@ -28,7 +28,7 @@ class Client extends RequestBuilder
 
         $this->httpClient = new \GuzzleHttp\Client([
             'base_uri' => $this->apiEndpoint,
-            \GuzzleHttp\RequestOptions::TIMEOUT => 5,
+            \GuzzleHttp\RequestOptions::TIMEOUT => 10,
             \GuzzleHttp\RequestOptions::HEADERS => $headers,
             \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
         ]);
